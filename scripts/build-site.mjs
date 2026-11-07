@@ -285,13 +285,14 @@ pages.push({ file: "pricing/index.html", path: "/pricing/", title: "Pricing · O
     `<ul>${p.items.map((i) => `<li>${ic("i-check2")}${i}</li>`).join("")}</ul></div>`).join("")}</div>
 <div class="teams t3"><span class="tl">${ic("i-users")}Teams ${planned}</span><span class="tp">${TEAMS_PRICE}</span><span class="fn">Planned prices in US dollars. They may change before launch.</span></div>` });
 
+const PLANNED = '<span class="st planned">Planned</span>';
 const SEC_ROWS = [
-  ["Who holds the keys", "Your trusted devices, and a copy in Orbyn’s key service, kept in hardware security modules", "Only your trusted devices"],
-  ["Can Orbyn read your data?", "Technically yes, for account recovery and server features such as reminder email. Staff access needs approval and is logged.", "No"],
-  ["You lose every device", "Recover with your email, a trusted phone number and a waiting period", "Your recovery key or a recovery contact. Without them, the data is lost."],
+  ["Who holds the keys", `Your trusted devices. A recovery copy in Orbyn’s key service, kept in hardware security modules, is ${PLANNED}`, "Only your trusted devices"],
+  ["Can Orbyn read your data?", `Not today: the key service is not built, so Orbyn holds no copy of your keys. When Standard’s recovery copy ships, Orbyn will technically be able to read your data, for account recovery and server features such as reminder email, and staff access will need approval and be logged. ${PLANNED}`, 'No<sup><a href="#sec-backups">1</a></sup>'],
+  ["You lose every device", `Recover with your email, a trusted phone number and a waiting period. Account recovery is ${PLANNED}`, "Your recovery key or a recovery contact. Without them, the data is lost."],
   ["Adding a device", "Sign in, then approve with a code on a trusted device", "The same. The keys come from a trusted device, your recovery key or a recovery contact."],
   ["On the web", "Works after sign-in", "Off by default. Each sign-in is approved on a trusted device and lasts one hour."],
-  ["Reminders", "On the device, plus push and email from the server", "On the device. The push says only when; the phone decrypts the text."],
+  ["Reminders", `On the device today. Server push and email reminders are ${PLANNED}`, `On the device. Phone push, which says only when, is ${PLANNED}`],
   ["Search", "On the device", "On the device"],
   ["Shared lists and projects", "Standard", "End-to-end when everyone sharing uses Advanced"],
   ["Calendars other apps use", "Standard", "Standard, so calendar apps and invitations keep working"],
@@ -308,7 +309,8 @@ pages.push({ file: "security/index.html", path: "/security/", title: "Security �
 <ol class="sec-steps"><li><b>Saved on the device</b><span>A new task is saved in the device’s own database at once, so it works with no signal.</span></li><li><b>Encrypted before it leaves</b><span>The device encrypts the record with its own key before uploading it.</span></li><li><b>Stored as ciphertext</b><span>The server keeps a new encrypted version and tells your other devices something changed, without saying what.</span></li><li><b>Decrypted on your devices</b><span>Each device fetches the change and decrypts it. If two devices edited the same thing, they merge field by field.</span></li></ol></section>
 <section class="sec-sec"><h2>Standard or Advanced protection</h2><p>Every account has one of two levels. Sync and the apps work the same in both; what changes is who can hold the keys. Advanced will be in every paid plan.</p>
 <div class="sec-table" role="table" aria-label="Standard and Advanced protection compared"><div class="sec-row sec-head" role="row"><span role="columnheader"><span class="sr">Question</span></span><span role="columnheader">Standard <span class="t4">(default)</span></span><span role="columnheader">Advanced</span></div>
-${SEC_ROWS.map(([k, s, a]) => `<div class="sec-row" role="row"><b role="rowheader">${k}</b><span role="cell">${s}</span><span role="cell">${a}</span></div>`).join("\n")}</div></section>
+${SEC_ROWS.map(([k, s, a]) => `<div class="sec-row" role="row"><b role="rowheader">${k}</b><span role="cell">${s}</span><span role="cell">${a}</span></div>`).join("\n")}</div>
+<p id="sec-backups" class="sec-limit"><sup>1</sup> Switching from Standard to Advanced deletes Orbyn’s copy of your keys at once. Server backups made before the switch may keep a copy until the keys are rotated, which is Planned. An account that starts on Advanced never had a server copy.</p></section>
 <section class="sec-sec"><h2>What it looks like in your account</h2><p><span class="desk-only">Your protection level lives in your Orbyn account, and you can change it there. Early designs; they may change.</span><span class="phone-only">Early design; it may change.</span></p>
 <div class="pvgrid g2 desk-only">${fig("account-protection", b("Protection", "Protection level: Standard or Advanced, and what each app encrypts."))}${fig("account-advanced-flow", b("Advanced, step 2 of 3", "Turning on Advanced: save your recovery key first."))}</div>
 <div class="phone-only">${fig("account-protection", b("Protection", "Protection level: Standard or Advanced."))}</div></section>

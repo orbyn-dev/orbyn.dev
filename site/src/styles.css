@@ -242,6 +242,10 @@ html.th-anim,html.th-anim *,html.th-anim *::before,html.th-anim *::after{transit
 .copyerr{margin:0;font-size:12.5px}
 .link{color:var(--t1);text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
 .link:focus-visible{outline:0;box-shadow:0 0 0 2px var(--main),0 0 0 4px var(--t1);border-radius:4px}
+.sec-limit{margin:10px 0 0;font-size:12.5px;line-height:1.6;color:var(--t2);max-width:68ch;background:var(--main);border-radius:12px;padding:10px 14px}
+.sec-limit sup{color:var(--t3)}
+.sec-row sup a{color:var(--t3);text-decoration:none}
+.sec-row sup a:focus-visible{outline:0;box-shadow:0 0 0 2px var(--main),0 0 0 4px var(--t1);border-radius:4px}
 .sec-sees{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px}
 .sec-sees li{display:inline-flex;gap:7px;align-items:flex-start;min-height:30px;padding:6px 12px;border-radius:16px;background:var(--main);color:var(--t1);font-size:12.5px;line-height:1.4;max-width:100%}
 .sec-sees li .ic{margin-top:2px}
