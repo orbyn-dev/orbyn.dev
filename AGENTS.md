@@ -14,3 +14,5 @@ This repository is the orbyn.dev site. Read [README.md](README.md) and
 - `scripts/deploy.sh` deletes the old app's data. Run `--check` first, and only
   run it on a host you were asked to deploy to.
 - Public files never link private plan or design documents; say "internal designs".
+- Commit messages never carry AI attribution trailers; disclose AI use in the PR
+  body only. Write your own squash message when merging (`gh pr merge --subject --body`).
