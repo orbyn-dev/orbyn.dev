@@ -13,3 +13,7 @@ with this repository cloned at `repo/Orbyn` and task worktrees at
    and 390 px, in light and dark, and attach the screenshots.
 4. Open a pull request and fill in every section of the template, including
    AI usage.
+5. Commit messages carry no AI attribution trailers ("Co-Authored-By" naming an
+   AI tool, "Generated with", a robot-emoji line). Disclose AI use in the pull
+   request's AI usage section only. CI fails a pull request whose commits have
+   one; when you merge, write your own squash message.
