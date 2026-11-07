@@ -35,17 +35,43 @@ jobs:
       - name: Build the image
         run: docker build -f deploy/Dockerfile -t orbyn-dev-site .
 
+  # AI use is disclosed in the pull request's "AI usage" section, never as a
+  # trailer in a commit message. Runs only on pull requests.
+  commit-messages:
+    name: No AI attribution trailers
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --test scripts/check-commit-messages.test.mjs
+      - name: Check the commit messages in this pull request
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: node scripts/check-commit-messages.mjs "$BASE" "$HEAD"
+
   # Branch protection on main requires this check by name.
   result:
     name: CI result
     if: ${{ always() }}
-    needs: [site]
+    needs: [site, commit-messages]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Require the site checks
+      - name: Require the site checks and the commit-message check
         env:
           SITE: ${{ needs.site.result }}
+          COMMITS: ${{ needs.commit-messages.result }}
         run: |
           echo "site: $SITE"
+          echo "commit messages: $COMMITS"
           test "$SITE" = success
+          # The commit-message check only runs on pull requests.
+          case "$COMMITS" in success | skipped) ;; *) exit 1 ;; esac
