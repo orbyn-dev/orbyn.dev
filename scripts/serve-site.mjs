@@ -17,7 +17,8 @@ async function file(p) {
 
 createServer(async (req, res) => {
   const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname)).replace(/^(\.\.[/\\])+/, "");
-  if (/^\/(apps|download|pricing|security|planner|notes|studio|engineering)$/.test(path)) {
+  if (path === "/planner/") { res.writeHead(301, { Location: "/planner" }); return res.end(); }
+  if (/^\/(apps|download|pricing|security|notes|studio|engineering)$/.test(path)) {
     res.writeHead(301, { Location: path + "/" }); return res.end();
   }
   let found = path.startsWith("/_headers") ? null : await file(join(dist, path));

@@ -1,0 +1,2 @@
+# Cloudflare Workers static assets. nginx.conf has the same rule.
+/planner/ /planner 301

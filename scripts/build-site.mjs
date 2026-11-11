@@ -178,10 +178,13 @@ function nav(current) {
     `<div class="mrow foot">${building}Nothing is out yet</div></nav></div></header>`;
 }
 
+// The Planner landing page lives at exactly https://orbyn.dev/planner (no trailing slash).
+// /planner/ redirects there; every link and the canonical address use the exact form.
+const appPath = (key) => (key === "planner" ? "/planner" : `/${key}/`);
 const appIcon = (a, sm = true) => `<span class="appi${sm ? " sm" : ""} ${a.cls}" aria-hidden="true">${ic(a.icon)}</span>`;
 
 function appCard(a, { withPreview = true } = {}) {
-  return `<a class="acard" href="/${a.key}/" data-group="${a.group}">${withPreview ? frame(PREVIEWS[a.key].card, { cls: "cardpv" }) : ""}` +
+  return `<a class="acard" href="${appPath(a.key)}" data-group="${a.group}">${withPreview ? frame(PREVIEWS[a.key].card, { cls: "cardpv" }) : ""}` +
     `<div class="head"><h2>${appIcon(a)}${a.name}</h2><span class="end">${building}</span></div><p>${a.line}</p>` +
     `<div class="plat">${ic("i-laptop")}${PLATFORMS[a.key]}</div></a>`;
 }
@@ -329,7 +332,7 @@ ${SEC_ROWS.map(([k, s, a]) => `<div class="sec-row" role="row"><b role="rowheade
 
 for (const a of APPS) {
   const rest = APPS.filter((x) => x !== a);
-  pages.push({ file: `${a.key}/index.html`, path: `/${a.key}/`, title: `${a.name} · Orbyn`, current: "Apps",
+  pages.push({ file: `${a.key}/index.html`, path: appPath(a.key), title: `${a.name} · Orbyn`, current: "Apps",
     description: `${a.line} Being built. There is nothing to install yet.`,
     body: `<section class="pvhdr"><div class="txt">
 <span class="meta">${appIcon(a, false)}${building}<span class="t3 small">${a.group}</span></span>
@@ -356,7 +359,7 @@ ${PREVIEWS[a.key].phoneLast ? fig(PREVIEWS[a.key].phoneLast[0], b("Phone", PREVI
 <div class="gap28"></div>
 ${promises()}
 <h2 class="family t3">The rest of the family</h2>
-<div class="cards c3">${rest.map((r) => `<a class="acard slim" href="/${r.key}/"><div class="head"><h2>${appIcon(r)}${r.name}</h2><span class="end">${building}</span></div></a>`).join("")}</div>` });
+<div class="cards c3">${rest.map((r) => `<a class="acard slim" href="${appPath(r.key)}"><div class="head"><h2>${appIcon(r)}${r.name}</h2><span class="end">${building}</span></div></a>`).join("")}</div>` });
 }
 
 const notFound = (line, button, path, file) => ({ file, path, title: "Not found · Orbyn", current: "",
@@ -396,8 +399,10 @@ const problems = [];
 const exists = (href, from) => {
   const p = href.replace(/[#?].*$/, "");
   const base = p.startsWith("/") ? out : dirname(from);
+  const isFile = (t) => { try { return statSync(t).isFile(); } catch { return false; } };
   const target = p.endsWith("/") ? join(base, p, "index.html") : join(base, p);
-  try { return statSync(target).isFile(); } catch { return false; }
+  // A path without a trailing slash may name a folder with an index page, as the server serves it.
+  return isFile(target) || (!p.endsWith("/") && isFile(join(target, "index.html")));
 };
 for (const f of files.filter((f) => f.endsWith(".html"))) {
   const html = readFileSync(f, "utf8");
