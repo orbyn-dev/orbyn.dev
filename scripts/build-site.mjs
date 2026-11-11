@@ -55,7 +55,7 @@ const PLATFORMS = {
 const APPS = [
   { key: "planner", name: "Orbyn Planner", cls: "ap-pl", icon: "i-calcheck", line: "Tasks, lists, projects and calendar. Offline and encrypted end to end.", group: "Everyday",
     plan: "Planned plan: Free on one device, Plus to sync",
-    features: [["Today", "Events and tasks for the day, in order."], ["Calendar", "Week, day, agenda and month, with your other calendars."], ["Projects", "Boards and lists for anything from a trip to a launch."], ["Booking", "Pages that read only your busy times. Planned."]] },
+    features: [["Today", "Events and tasks for the day, in order."], ["Calendar", "Week, day, agenda and month, with your other calendars.", "Use it with your other calendar apps."], ["Projects", "Boards and lists for anything from a trip to a launch."], ["Booking", "Pages that read only your busy times. Planned."]] },
   { key: "notes", name: "Orbyn Notes", cls: "ap-no", icon: "i-note", line: "Encrypted notes and pages that link to your tasks and events.", group: "Everyday",
     plan: "Planned plan: Free on one device, Plus to sync",
     features: [["Notes and pages", "A plain, fast editor that works offline."], ["Links to tasks", "A task links to a note, and a note to an event."], ["Study", "Flashcards from your notes, reviewed on a schedule."], ["Clip and Journal", "Save pages to read later; keep a private daily page."]] },
@@ -349,7 +349,7 @@ ${fig(PREVIEWS[a.key].walk[0], b("Walkthrough", PREVIEWS[a.key].walk[1]), { cls:
 ${PREVIEWS[a.key].gallery.map(([f, t, c]) => fig(f, b(t, c), { open: t })).join("")}
 ${PREVIEWS[a.key].phoneLast ? fig(PREVIEWS[a.key].phoneLast[0], b("Phone", PREVIEWS[a.key].phoneLast[1])) : ""}
 </div>
-<div class="cards c4">${a.features.map(([t, d]) => `<div class="acard feat"><h2>${t}</h2><p>${d}</p></div>`).join("")}</div>
+<div class="cards c4">${a.features.map(([t, d, extra]) => `<div class="acard feat"><h2>${t}</h2><p>${d}</p>${extra ? `<p class="caldav">${extra} ${planned}</p>` : ""}</div>`).join("")}</div>
 <div class="desk-only">
 <div class="gap26"></div>
 <div class="pvblk"><div class="pvh2"><b>See it work</b><span class="t3">Real screens from the design, played as a short walkthrough.</span></div>${fig(PREVIEWS[a.key].walk[0], b("Walkthrough", PREVIEWS[a.key].walk[1]), { cls: "pvwalk" }).replace('class="pvb', 'class="pvb pvw')}</div>

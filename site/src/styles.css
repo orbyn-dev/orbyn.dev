@@ -104,6 +104,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0}
 .acard.slim h2{font-size:13px}
 .acard.feat{background:var(--raise)}
 .acard.feat h2{font-size:13.5px}
+.acard .caldav{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
 .acard[hidden]{display:none}
 .acard h2{margin:0;font-size:15px;font-weight:500;color:var(--t1);display:flex;align-items:center;gap:8px}
 .acard .head{display:flex;align-items:center;gap:8px;font-size:15px}
@@ -393,6 +394,7 @@ html.th-anim,html.th-anim *,html.th-anim *::before,html.th-anim *::after{transit
   .frow.fend{margin-left:0}
   .prin{gap:14px}.prin div{gap:4px}.prin h2{font-size:14px}
   /* phone tails (designer spec): compact feature cards, promises and family rows, 28px between groups */
+  .cards.c4:has(.acard.feat){padding:12px;gap:8px}
   .acard.feat{padding:12px;gap:8px}
   .gap28,.gap22,.gap34{height:28px}
   .family{padding:28px 6px 6px}
