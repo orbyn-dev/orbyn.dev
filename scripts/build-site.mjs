@@ -151,7 +151,7 @@ const PREVIEWS = {
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const building = '<span class="st info"><i class="sd"></i>Building</span>';
 const planned = '<span class="st planned"><i class="sd"></i>Planned</span>';
-const NAV = [["Apps", "/apps/"], ["Pricing", "/pricing/"], ["Security", "/security/"]];
+const NAV = [["Apps", "/apps"], ["Pricing", "/pricing"], ["Security", "/security"]];
 
 // Theme: the button and menu from orbyn.dev Designs "Theme switch".
 const THEMES = [["system", "System", "i-laptop", "Follows this device"], ["light", "Light", "i-sun", ""], ["dark", "Dark", "i-moon", ""], ["dim", "Dim", "i-moon", "Softer dark"]];
@@ -178,9 +178,9 @@ function nav(current) {
     `<div class="mrow foot">${building}Nothing is out yet</div></nav></div></header>`;
 }
 
-// The Planner landing page lives at exactly https://orbyn.dev/planner (no trailing slash).
-// /planner/ redirects there; every link and the canonical address use the exact form.
-const appPath = (key) => (key === "planner" ? "/planner" : `/${key}/`);
+// Every page lives at its address with no trailing slash (orbyn.dev/planner, orbyn.dev/apps).
+// The trailing-slash form redirects there: nginx.conf, and Workers' drop-trailing-slash setting.
+const appPath = (key) => `/${key}`;
 const appIcon = (a, sm = true) => `<span class="appi${sm ? " sm" : ""} ${a.cls}" aria-hidden="true">${ic(a.icon)}</span>`;
 
 function appCard(a, { withPreview = true } = {}) {
@@ -236,7 +236,7 @@ pages.push({ file: "index.html", path: "/", title: "Orbyn", current: "",
 <span class="eyebrow t3">One account · four apps</span>
 <h1>Private apps that work offline and that agents can work in safely.</h1>
 <p><span class="desk-only">Orbyn is a family of local-first apps that sync end to end under one account. Plan your week, keep your notes, make films and build software.</span><span class="phone-only">A family of local-first apps under one account.</span></p>
-<div class="acts"><a class="btn lg" href="/apps/">See the apps</a><a class="ghost lg" href="/security/">How we protect your data</a></div>
+<div class="acts"><a class="btn lg" href="/apps">See the apps</a><a class="ghost lg" href="/security">How we protect your data</a></div>
 <span class="note t4">Nothing is out yet. Every app is still being built.</span>
 </section>
 <div class="pvhero desk-only" role="group" aria-label="Orbyn Planner, Notes, Studio and Engineering on one account">
@@ -254,7 +254,7 @@ ${APPS.map((a) => `<div class="pvstack phone-only"><span class="pvsh">${appIcon(
 <div class="gap34"></div>
 ${promises()}` });
 
-pages.push({ file: "apps/index.html", path: "/apps/", title: "Apps · Orbyn", current: "Apps",
+pages.push({ file: "apps/index.html", path: "/apps", title: "Apps · Orbyn", current: "Apps",
   description: "Four apps on one account: Orbyn Planner, Notes, Studio and Engineering. Every app is still being built.",
   body: `<section class="hero sub">
 <h1>Apps</h1>
@@ -265,7 +265,7 @@ pages.push({ file: "apps/index.html", path: "/apps/", title: "Apps · Orbyn", cu
 <div class="cards c2" id="catalog">${APPS.map((a) => appCard(a)).join("")}</div>
 <div class="legend t3">${building}Being built, not out yet${planned}On the roadmap, not started</div>` });
 
-pages.push({ file: "download/index.html", path: "/download/", title: "Download · Orbyn", current: "",
+pages.push({ file: "download/index.html", path: "/download", title: "Download · Orbyn", current: "",
   description: "Nothing to download yet. Every Orbyn app is still being built.",
   body: `<section class="hero sub dl">
 <h1>Nothing to download yet</h1>
@@ -274,7 +274,7 @@ pages.push({ file: "download/index.html", path: "/download/", title: "Download �
 <div class="cards c4">${APPS.map((a) => `<div class="acard slim"><h2>${appIcon(a)}${a.name}</h2><span class="planned-for t3">Planned for ${PLATFORMS[a.key]}</span><div>${building}</div></div>`).join("")}</div>
 <p class="foot t3">Phone and web versions are planned for Planner and Notes.</p>` });
 
-pages.push({ file: "pricing/index.html", path: "/pricing/", title: "Pricing · Orbyn", current: "Pricing",
+pages.push({ file: "pricing/index.html", path: "/pricing", title: "Pricing · Orbyn", current: "Pricing",
   description: "Nothing is for sale yet. These are the plans Orbyn intends to launch with: every app free on one device, and one subscription to sync.",
   body: `<section class="hero center pricing-hero">
 <span class="desk-only">${planned}</span>
@@ -300,7 +300,7 @@ const SEC_ROWS = [
   ["Shared lists and projects", "Standard", "End-to-end when everyone sharing uses Advanced"],
   ["Calendars other apps use", "Standard", "Standard, so calendar apps and invitations keep working"],
 ];
-pages.push({ file: "security/index.html", path: "/security/", title: "Security · Orbyn", current: "Security",
+pages.push({ file: "security/index.html", path: "/security", title: "Security · Orbyn", current: "Security",
   description: "How Orbyn protects your data. This is how Orbyn is being built. Nothing has launched yet, and details may change before it does.",
   body: `<div class="sec-page">
 <section class="sec-hero">${building}<h1>How Orbyn protects your data</h1><p>This is how Orbyn is being built. Nothing has launched yet, and details may change before it does.</p></section>
@@ -365,7 +365,7 @@ ${promises()}
 const notFound = (line, button, path, file) => ({ file, path, title: "Not found · Orbyn", current: "",
   description: "This page doesn’t exist.",
   body: `<div class="public"><span class="t3 mono">404</span><h1>This page doesn’t exist</h1><p>${line}</p>
-<div class="acts"><a class="btn" href="/apps/">${button}</a><a class="ghost" href="/">Go home</a></div></div>` });
+<div class="acts"><a class="btn" href="/apps">${button}</a><a class="ghost" href="/">Go home</a></div></div>` });
 pages.push(notFound("The link may be wrong, or the page may have moved.", "See the apps", "/404", "404.html"));
 pages.push(notFound("Booking lives inside Orbyn Planner. It’s planned, not built yet.", "See all apps", "/booking", "booking/404.html"));
 
