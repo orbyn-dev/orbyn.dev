@@ -40,7 +40,9 @@ jobs:
   commit-messages:
     name: No AI attribution trailers
     if: ${{ github.event_name == 'pull_request' }}
-    runs-on: ubuntu-latest
+    # Runs on the local runners only when the repository variable CI_RUNNER is
+    # "local" and the pull request is not from a fork. Otherwise it stays hosted.
+    runs-on: ${{ (vars.CI_RUNNER == 'local' && github.event.pull_request.head.repo.fork != true) && fromJSON('["self-hosted","orbyn-local"]') || 'ubuntu-latest' }}
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
