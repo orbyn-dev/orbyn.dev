@@ -42,6 +42,10 @@ jobs:
     if: ${{ github.event_name == 'pull_request' }}
     # Runs on the local runners only when the repository variable CI_RUNNER is
     # "local" and the pull request is not from a fork. Otherwise it stays hosted.
+    # The fork check is a convenience, not a security boundary: on pull_request
+    # GitHub runs the workflow file from the PR, so a fork can rewrite runs-on.
+    # Set CI_RUNNER=local only after the repository is private; the runner group
+    # (private repositories only) is the real boundary.
     runs-on: ${{ (vars.CI_RUNNER == 'local' && github.event.pull_request.head.repo.fork != true) && fromJSON('["self-hosted","orbyn-local"]') || 'ubuntu-latest' }}
     timeout-minutes: 5
     steps:
